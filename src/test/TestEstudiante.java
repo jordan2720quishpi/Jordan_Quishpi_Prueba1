@@ -1,99 +1,117 @@
-
 package test;
 
 import dominio.Estudiante;
 import java.util.Scanner;
 
-
 public class TestEstudiante {
-     static Scanner datos = new Scanner(System.in);
+
+    static Scanner datos = new Scanner(System.in);
+
     public static void main(String[] args) {
-        int nroHombres,ne;      
+        int nroHombres, ne;
         System.out.println("Cuantos estudiantes desea ingresar");
-        int n= datos.nextInt();
-        Estudiante [] estudiantes = new Estudiante[n];
+        int n = datos.nextInt();
+        Estudiante[] estudiantes = new Estudiante[n];
         llenaEstudiante(estudiantes);
         System.out.println("Listado de Estudiantes ordenados de mayor a menor nota");
         //llamar al metodo para ordenar
-        for(Estudiante est:estudiantes){
+        ordenarBurbuja(estudiantes);
+        for (Estudiante est : estudiantes) {
             System.out.println(est);
         }
-        nroHombres=porcentajegenero(estudiantes); 
-        System.out.println("El % de hombres X encima del promedio :"+porcentajePromedio(estudiantes, nroHombres, 'm'));
-        System.out.println("El % de mujeres X encima del promedio :"+porcentajePromedio(estudiantes, nroHombres, 'f'));
+        nroHombres = porcentajegenero(estudiantes);
+        System.out.println("El % de hombres X encima del promedio :" + porcentajePromedio(estudiantes, nroHombres, 'm'));
+        System.out.println("El % de mujeres X encima del promedio :" + porcentajePromedio(estudiantes, nroHombres, 'f'));
         ne = notaAlta(estudiantes);
-        System.out.println("El estudiante con la mas alta nota es :"+
-                estudiantes[ne].getNombre());
-        
+        System.out.println("El estudiante con la mas alta nota es :"
+                + estudiantes[ne].getNombre());
+
     }
-    public static void llenaEstudiante(Estudiante est[]){
+
+    public static void llenaEstudiante(Estudiante est[]) {
         String nombre;
         char sexo;
         double nota;
-        for(int i=0;i<est.length;i++){
+        for (int i = 0; i < est.length; i++) {
             datos.nextLine();
-            System.out.println("Estudiante No "+(i+1));
+            System.out.println("Estudiante No " + (i + 1));
             System.out.print("Nombre: ");
             nombre = datos.nextLine();
             System.out.println("Sexo: <<m>><<f>> ");
             sexo = datos.next().charAt(0);
             System.out.print("Nota : ");
             nota = datos.nextDouble();
-            est[i] = new Estudiante(nombre,sexo,nota);            
+            est[i] = new Estudiante(nombre, sexo, nota);
         }
     }
-    public  static int  porcentajegenero(Estudiante est[]){
-        int cuentahombres=0,cuentamujeres=0;
+
+    public static int porcentajegenero(Estudiante est[]) {
+        int cuentahombres = 0, cuentamujeres = 0;
         double porc;
-        for(int i=0;i<est.length;i++){
-            if(est[i].getSexo()=='m'){
+        for (int i = 0; i < est.length; i++) {
+            if (est[i].getSexo() == 'm') {
                 cuentahombres++;
             }
         }
-        cuentamujeres = est.length-cuentahombres;
-        System.out.println("Porcentaje hombres ="+(cuentahombres*100/est.length));
-        System.out.println("Porcentaje mujeres ="+(cuentamujeres*100/est.length));
-        porc = cuentahombres*100/est.length;
+        cuentamujeres = est.length - cuentahombres;
+        System.out.println("Porcentaje hombres =" + (cuentahombres * 100 / est.length));
+        System.out.println("Porcentaje mujeres =" + (cuentamujeres * 100 / est.length));
+        porc = cuentahombres * 100 / est.length;
         return cuentahombres;
     }
-    public static double porcentajePromedio(Estudiante est[],int homb,char sex){
-        int muj = est.length-homb;
-        int cuenta=0;
-        double promedio=0,porch,porcm;
-        for(int i=0;i<est.length;i++){
-            promedio+=est[i].getNota();
+
+    public static double porcentajePromedio(Estudiante est[], int homb, char sex) {
+        int muj = est.length - homb;
+        int cuenta = 0;
+        double promedio = 0, porch, porcm;
+        for (int i = 0; i < est.length; i++) {
+            promedio += est[i].getNota();
         }
-        promedio=promedio/est.length;
-        
-        for(int i=0;i<est.length;i++){
-            if(est[i].getNota()>promedio && est[i].getSexo()==sex){
+        promedio = promedio / est.length;
+
+        for (int i = 0; i < est.length; i++) {
+            if (est[i].getNota() > promedio && est[i].getSexo() == sex) {
                 cuenta++;
             }
-        }        
-        porch = homb*100/est.length;
-        porcm = muj*100/est.length;
-        if(sex=='m' && homb>0){
-            porch = cuenta * porch/homb;
-            return porch;
         }
-        else if(muj>0){
-            porcm = cuenta * porcm/muj;
+        porch = homb * 100 / est.length;
+        porcm = muj * 100 / est.length;
+        if (sex == 'm' && homb > 0) {
+            porch = cuenta * porch / homb;
+            return porch;
+        } else if (muj > 0) {
+            porcm = cuenta * porcm / muj;
             return porcm;
-           }
-        else{
+        } else {
             return 0;
         }
     }
-    public static int notaAlta(Estudiante est[]){
+
+    public static int notaAlta(Estudiante est[]) {
         double mayor;
-        int indice=0;
+        int indice = 0;
         mayor = est[0].getNota();
-        for(int i=1;i<est.length;i++){
-            if(est[i].getNota()>mayor){
+        for (int i = 1; i < est.length; i++) {
+            if (est[i].getNota() > mayor) {
                 mayor = est[i].getNota();
                 indice = i;
             }
-        }        
+        }
         return indice;
     }
+
+    public static void ordenarBurbuja(Estudiante est[]) {
+        double aux = 0;
+        for (int i = 1; i <= est.length; i++) {
+            for (int j = 1; j <= est.length - 1; j++) {
+                if (est[j - 1].getNota() < est[j].getNota()) {
+                    aux = est[j - 1].getNota();
+                    est[j - 1].setNota(est[j].getNota());
+                    est[j].setNota(aux);
+                }
+            }
+        }
+
+    }
+
 }
