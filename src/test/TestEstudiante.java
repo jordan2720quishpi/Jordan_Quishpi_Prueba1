@@ -102,16 +102,24 @@ public class TestEstudiante {
 
     public static void ordenarBurbuja(Estudiante est[]) {
         double aux = 0;
+        String nomre;
+        char sexo;
         for (int i = 1; i <= est.length; i++) {
             for (int j = 1; j <= est.length - 1; j++) {
                 if (est[j - 1].getNota() < est[j].getNota()) {
                     aux = est[j - 1].getNota();
+                    nomre=est[j - 1].getNombre();
+                    sexo=est[j - 1].getSexo();
                     est[j - 1].setNota(est[j].getNota());
+                    est[j - 1].setNombre(est[j].getNombre());
+                    est[j - 1].setSexo(est[j].getSexo());
                     est[j].setNota(aux);
+                    est[j].setNombre(nomre);
+                    est[j].setSexo(sexo);
+                    est[j]=new Estudiante(nomre,sexo,aux);
                 }
             }
         }
 
     }
-
 }
